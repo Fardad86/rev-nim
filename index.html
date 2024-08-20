@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی Nim</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .heap {
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .heap span {
+            margin: 0 5px;
+            padding: 10px;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>بازی Nim</h1>
+    <h3>بازیکن فعلی: <span id="currentPlayer">1</span></h3>
+    <div id="heapsContainer"></div>
+    <button onclick="resetGame()">شروع مجدد</button>
+
+    <script>
+        let heaps = [3, 4, 5];  // تعداد توده‌ها و اشیاء در هر توده
+        let currentPlayer = 1;
+
+        function renderHeaps() {
+            const container = document.getElementById('heapsContainer');
+            container.innerHTML = '';
+            heaps.forEach((count, index) => {
+                const heapDiv = document.createElement('div');
+                heapDiv.className = 'heap';
+                heapDiv.dataset.index = index;
+                for (let i = 0; i < count; i++) {
+                    const stone = document.createElement('span');
+                    stone.textContent = '🔵';
+                    stone.onclick = () => removeStones(index, i + 1);
+                    heapDiv.appendChild(stone);
+                }
+                container.appendChild(heapDiv);
+            });
+        }
+
+        function removeStones(heapIndex, count) {
+            if (heaps[heapIndex] >= count) {
+                heaps[heapIndex] -= count;
+                if (checkGameOver()) {
+                    alert(`بازیکن ${currentPlayer} باخت!`);
+                } else {
+                    currentPlayer = currentPlayer === 1 ? 2 : 1;
+                    document.getElementById('currentPlayer').textContent = currentPlayer;
+                    renderHeaps();
+                }
+            }
+        }
+
+        function checkGameOver() {
+            return heaps.every(count => count === 0);
+        }
+
+        function resetGame() {
+            currentPlayer = 1;
+            heaps = [3, 4, 5];
+            document.getElementById('currentPlayer').textContent = currentPlayer;
+            renderHeaps();
+        }
+
+        window.onload = resetGame;
+    </script>
+</body>
+</html>
