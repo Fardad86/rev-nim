@@ -117,7 +117,7 @@
             if (heaps[heapIndex] >= count) {
                 heaps[heapIndex] -= count;
                 if (checkGameOver()) {
-                    alert(`Player ${currentPlayer} loses!`);
+                    alert(`Player ${currentPlayer} wins!`);
                 } else {
                     currentPlayer = currentPlayer === 1 ? 2 : 1;
                     document.getElementById('currentPlayer').textContent = currentPlayer;
